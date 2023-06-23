@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+# Load the dataset from a CSV file
+data = pd.read_csv('data.csv')
+
+# Extract the features from the dataset
+X = data.iloc[:, :-1].values
+
+# Define the range of k values to try
+k_values = range(2, 10)
+
+# Perform clustering for each k value
+results = []
+for k in k_values:
+    # Create a k-Means clustering object
+    kmeans = KMeans(n_clusters=k)
+
+    # Fit the clustering model to the data
+    kmeans.fit(X)
+
+    # Get the cluster labels and centroids
+    labels = kmeans.labels_
+    centroids = kmeans.cluster_centers_
+
+    # Calculate the silhouette score
+    silhouette_avg = silhouette_score(X, labels)
+
+    # Store the results
+    results.append((k, silhouette_avg, labels, centroids))
+
+# Print the results for each k value
+for k, silhouette_avg, labels, centroids in results:
+    print(f"Number of clusters (k): {k}")
+    print(f"Silhouette score: {silhouette_avg:.2f}")
+
+    # Optionally, plot the clusters
+    plt.scatter(X[:, 0], X[:, 1], c=labels)
+    plt.scatter(centroids[:, 0], centroids[:, 1], marker='x', c='red')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.title(f"k-Means Clustering (k={k})")
+    plt.show()
