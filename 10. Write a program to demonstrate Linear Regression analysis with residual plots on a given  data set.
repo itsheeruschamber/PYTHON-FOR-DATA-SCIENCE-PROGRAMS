@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sample dataset
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([3, 4, 6, 8, 8])
+
+# Calculate linear regression parameters
+slope, intercept = np.polyfit(x, y, 1)
+
+# Calculate predicted values
+y_pred = slope * x + intercept
+
+# Calculate residuals
+residuals = y - y_pred
+
+# Plotting the data points
+plt.scatter(x, y, color='blue', label='Actual data')
+
+# Plotting the regression line
+plt.plot(x, y_pred, color='red', label='Linear regression')
+
+# Plotting the residuals
+plt.scatter(x, residuals, color='green', label='Residuals')
+
+plt.axhline(0, color='black', linestyle='--')  # Horizontal line at y=0
+
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Linear Regression Analysis')
+plt.legend()
+plt.show()
